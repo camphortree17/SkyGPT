@@ -13,7 +13,7 @@ from utils.pv_utils import empirical_crps, interval_coverage, mae, mse, nmae, nr
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     args = parser.parse_args()
     C = load_dataset_module(args.dataset, "pv")
 

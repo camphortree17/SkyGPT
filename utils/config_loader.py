@@ -3,7 +3,7 @@ from __future__ import annotations
 import importlib
 from pathlib import Path
 
-DATASETS = {"skippd", "folmos"}
+DATASETS = {"skippd", "folmos", "sirta"}
 
 def package_root() -> Path:
     return Path(__file__).resolve().parents[1]

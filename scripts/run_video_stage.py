@@ -32,7 +32,7 @@ def run(script: str, dataset: str, extra_args: list[str] | None = None):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     parser.add_argument("--only", choices=list(STAGES.keys()))
 
     # 这些参数主要给 export_generated 用

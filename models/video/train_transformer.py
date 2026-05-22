@@ -40,7 +40,7 @@ def resolve_vqvae_checkpoint(cfg):
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train Transformer")
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     args0 = parser.parse_args()
 
     cfg = load_dataset_module(args0.dataset, "video")

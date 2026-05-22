@@ -69,7 +69,7 @@ def evaluate_regression(model, loader, device, stats, amp_enabled: bool, amp_dty
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     args = parser.parse_args()
     C = load_dataset_module(args.dataset, "pv")
 

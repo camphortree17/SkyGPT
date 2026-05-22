@@ -35,7 +35,7 @@ def run(script: str, dataset: str, extra_args: list[str] | None = None):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     parser.add_argument("--only", choices=list(STAGES.keys()))
     args = parser.parse_args()
 

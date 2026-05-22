@@ -270,7 +270,7 @@ def _open_or_create_seq_memmap(path: Path, shape: tuple[int, ...], resume: bool)
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Export generated future sequences incrementally with resume support")
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     parser.add_argument("--batch_size", type=int, default=16)
     parser.add_argument("--start_index", type=int, default=0)
     parser.add_argument("--stop_index", type=int, default=0, help="0 means export to the end")

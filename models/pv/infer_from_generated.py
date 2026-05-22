@@ -207,7 +207,7 @@ def _load_test_generated_inputs(C):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos"])
+    parser.add_argument("--dataset", required=True, choices=["skippd", "folmos", "sirta"])
     parser.add_argument("--split", required=True, choices=["val", "test"])
     parser.add_argument("--input_mode", required=True, choices=["real", "generated"])
     args = parser.parse_args()
