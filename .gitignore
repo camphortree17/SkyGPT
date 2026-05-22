@@ -1,0 +1,17 @@
+data/
+SkyGPT/
+outputs/
+*.log
+*.ckpt
+*.pth
+*.pt
+*.h5
+*.json
+*.csv
+*.zip
+*.pyc
+configs/_pycache_/
+models/_pycache_/
+scripts/_pycache_/
+utils/_pycache_/
+__pycache__/
