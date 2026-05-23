@@ -13,9 +13,7 @@ if [[ "${STAGE}" == "resume" || "${STAGE}" == "reset" || "${STAGE}" == "fresh" ]
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-LOG_DIR="${ROOT_DIR}/outputs/${DATASET}/image_output_val/logs"
-PID_FILE="${LOG_DIR}/video_train.pid"
-mkdir -p "${LOG_DIR}"
+OUTPUT_ROOT="${ROOT_DIR}/outputs/${DATASET}"
 
 # 可通过 export 覆盖
 EXPORT_BATCH_SIZE="${EXPORT_BATCH_SIZE:-16}"
@@ -46,6 +44,29 @@ validate_mode() {
     *)
       echo "[$(ts)] invalid MODE=${MODE}, expected: resume | reset | fresh"
       exit 1
+      ;;
+  esac
+}
+
+resolve_log_dir() {
+  case "${STAGE}" in
+    train_vqvae)
+      echo "${OUTPUT_ROOT}/vqvae/logs"
+      ;;
+    train_transformer)
+      echo "${OUTPUT_ROOT}/transformer/logs"
+      ;;
+    sample|export_generated)
+      echo "${OUTPUT_ROOT}/image_output/logs"
+      ;;
+    eval_video)
+      echo "${OUTPUT_ROOT}/eval/logs"
+      ;;
+    prepare_video)
+      echo "${OUTPUT_ROOT}/prepared/logs"
+      ;;
+    all)
+      echo "${OUTPUT_ROOT}/logs"
       ;;
   esac
 }
@@ -89,14 +110,18 @@ build_run_args() {
 }
 
 start() {
+  validate_stage
+  validate_mode
+  LOG_DIR="$(resolve_log_dir)"
+  PID_FILE="${LOG_DIR}/video_${STAGE}.pid"
+  mkdir -p "${LOG_DIR}"
+
   if [[ -f "${PID_FILE}" ]] && kill -0 "$(cat "${PID_FILE}")" >/dev/null 2>&1; then
     echo "[$(ts)] video stage already running, PID=$(cat "${PID_FILE}")"
     exit 0
   fi
 
   local log_file="${LOG_DIR}/video_pipeline_$(date '+%Y%m%d_%H%M%S').log"
-  validate_stage
-  validate_mode
   mapfile -t CMD_ARGS < <(build_run_args)
 
   (
@@ -141,6 +166,10 @@ start() {
 }
 
 stop() {
+  validate_stage
+  LOG_DIR="$(resolve_log_dir)"
+  PID_FILE="${LOG_DIR}/video_${STAGE}.pid"
+
   if [[ -f "${PID_FILE}" ]]; then
     kill "$(cat "${PID_FILE}")" || true
     rm -f "${PID_FILE}"
@@ -151,6 +180,10 @@ stop() {
 }
 
 status() {
+  validate_stage
+  LOG_DIR="$(resolve_log_dir)"
+  PID_FILE="${LOG_DIR}/video_${STAGE}.pid"
+
   if [[ -f "${PID_FILE}" ]] && kill -0 "$(cat "${PID_FILE}")" >/dev/null 2>&1; then
     echo "[$(ts)] running, PID=$(cat "${PID_FILE}")"
   else
